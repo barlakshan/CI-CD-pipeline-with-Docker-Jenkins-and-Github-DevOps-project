@@ -1,7 +1,5 @@
 # Use the latest version of the Node.js image as the base image
 FROM node:latest  
-# Use the latest version of the Node.js image as the base image
-
 
 # Set the working directory inside the container to /usr/src/app
 WORKDIR /usr/src/app  
