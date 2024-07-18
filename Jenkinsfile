@@ -5,7 +5,7 @@ pipeline {
         stage('SCM Checkout') {
             steps {
                 retry(3) {
-                    git branch: 'main', url: 'https://github.com/barlakshan/GitHub-Docker-and-Jenkins-CI-CD-Pipeline.git'
+                    git branch: 'main', url: 'https://github.com/barlakshan/CI-CD-pipeline-with-Docker-Jenkins-and-Github-DevOps-project.git'
                 }
             }
         }
@@ -16,9 +16,9 @@ pipeline {
         }
         stage('Login to Docker Hub') {
             steps {
-                withCredentials([string(credentialsId: 'test-dockerhublogin', variable: 'dockerhubpass')]) {
+                withCredentials([string(credentialsId: 'dockerhub-password', variable: 'dockerhubPass')]) {
                     script {
-                        bat "docker login -u barlakshan -p %dockerhubpass%"
+                        bat "docker login -u barlakshan -p %dockerhubPass%"
                     }
                 }
             }
@@ -28,6 +28,7 @@ pipeline {
                 bat 'docker push barlakshan/nodeapp-cuban:%BUILD_NUMBER%'
             }
         }
+        
     }
     post {
         always {

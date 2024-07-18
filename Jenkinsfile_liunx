@@ -1,33 +1,34 @@
 pipeline {
-    agent any
+    agent any 
     
-    stages {
+    stages { 
         stage('SCM Checkout') {
             steps {
                 retry(3) {
-                    git branch: 'main', url: 'https://github.com/HGSChandeepa/test-node'
+                    git branch: 'main', url: 'https://github.com/barlakshan/CI-CD-pipeline-with-Docker-Jenkins-and-Github-DevOps-project.git'
                 }
             }
         }
         stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t adomicarts/nodeapp-cuban:${BUILD_NUMBER} .'
+            steps {  
+                sh 'docker build -t barlakshan/nodeapp-cuban:%BUILD_NUMBER% .'
             }
         }
         stage('Login to Docker Hub') {
             steps {
-                withCredentials([string(credentialsId: 'samin-docker', variable: 'samindocker')]) {
-                    script {  
-                        sh "docker login -u adomicarts -p '${samindocker}'"
+                withCredentials([string(credentialsId: 'dockerhub-password', variable: 'dockerhubPass')]) {
+                    script {
+                        sh "docker login -u barlakshan -p %dockerhubPass%"
                     }
                 }
             }
         }
         stage('Push Image') {
             steps {
-                sh "docker push adomicarts/nodeapp-cuban:${BUILD_NUMBER}"
+                sh 'docker push barlakshan/nodeapp-cuban:%BUILD_NUMBER%'
             }
         }
+        
     }
     post {
         always {
