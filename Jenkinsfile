@@ -5,7 +5,7 @@ pipeline {
         stage('SCM Checkout') {
             steps {
                 retry(3) {
-                    git branch: 'main', url: 'https://github.com/barlakshan/CI-CD-pipeline-with-Docker-and-Jenkins.git'
+                    git branch: 'main', url: ''
                 }
             }
         }
@@ -16,9 +16,9 @@ pipeline {
         }
         stage('Login to Docker Hub') {
             steps {
-                withCredentials([string(credentialsId: 'test-nodeapppss', variable: 'test-nodeapppss')]) {
+                withCredentials([string(credentialsId: 'test-dockerhublogin', variable: 'dockerhubpass')]) {
                     script {
-                        bat "docker login -u barlakshan -p ${test-nodeapppss}"
+                        bat "docker login -u barlakshan -p %dockerhubpass%"
                     }
                 }
             }
